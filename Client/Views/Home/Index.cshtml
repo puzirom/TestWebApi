@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="header">
+        <h2>Web API client test</h2>
+    </div>
+    <div class="main" id="loginBlock" style="display: none">
+        <span>Login:</span>
+        <input id="txtUserName" type="text" value="customer_01@mail.com" />
+        <span>Password:</span>
+        <input id="txtUserPassword" type="password" />
+        <input id="btnLogin" type="button" value="Join" />
+    </div>
+    <div class="main" id="userInfo" style="display: none;">
+        <span>You are logged-in as: </span>
+        <span id="userName" class="bold"></span>
+        <input type="button" value="Sign out" id="logOut" />
+    </div>
+    <div class="header">
+        <h4>Collections methods</h4>
+    </div>
+    <div class="main" style="display: block">
+        <span>Page Number (not required):</span>
+        <input id="txtPageNumberCol" type="text" />
+        <span>Page Size (not required):</span>
+        <input id="txtPageSizeCol" type="text" />
+        <input id="btnCollections" type="button" value="Get Collections" />
+    </div>
+    <div class="main" style="display: block">
+        <span>Collection ID (required):</span>
+        <input id="txtCollectionId" type="text" />
+        <input id="btnCollection" type="button" value="Get Collection by ID" />
+    </div>
+    <div class="header">
+        <h4>Games methods</h4>
+    </div>
+    <div class="main" style="display: block">
+        <span>Page Number (not required):</span>
+        <input id="txtPageNumber" type="text" />
+        <span>Page Size (not required):</span>
+        <input id="txtPageSize" type="text" />
+        <input id="btnGames" type="button" value="Get Games" />
+    </div>
+    <div class="main" style="display: block">
+        <span>Game ID (required):</span>
+        <input id="txtGameId" type="text" />
+        <input id="btnGame" type="button" value="Get Game by ID" />
+        <input id="gameStart" type="button" value="Start Game (Authorization required)" />
+        <input id="gameStop" type="button" value="Stop Game (Authorization required)" />
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/util.js"></script>
+</body>
+</html>
