@@ -16,16 +16,16 @@ C:\Work\TestWebApi
 4. Into IIS add two sites (under Sites): 
 
   1) Site Name: TestWebApi.Service
-     Path: C:\Work\TestWebApi\Service 
-     Type: Http
-     IP address: 127.0.0.120
-     Host Name: service.test.local
+     Path: C:\Work\TestWebApi\Service; 
+     Type: Http; 
+     IP address: 127.0.0.120; 
+     Host Name: service.test.local; 
      (TestWebApi.Service -> "Edit permission" -> "Security" -> Everyone -> Full Control)
 
-  2) Site Name: TestWebApi.Client
-     Path: C:\Work\TestWebApi\Client
-     Type: Http
-     IP address: 127.0.0.121
+  2) Site Name: TestWebApi.Client;
+     Path: C:\Work\TestWebApi\Client; 
+     Type: Http; 
+     IP address: 127.0.0.121; 
      Host Name: client.test.local
 
 5. Run in browser http://client.test.local, perform tests and in the Console window check results
