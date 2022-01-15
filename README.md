@@ -3,9 +3,8 @@ TestWebApi solution demonstrates a work of REST WebApi service and its Client We
 Solution has been created in February 2019
 
 How to build and run:
-1. Into C:\Windows\System32\drivers\etc\hosts add following: 
 
-# TEST WEB API
+1. Into C:\Windows\System32\drivers\etc\hosts add following: 
 127.0.0.120 service.test.local
 127.0.0.121 client.test.local
 
