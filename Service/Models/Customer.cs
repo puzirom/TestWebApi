@@ -76,7 +76,10 @@ namespace TestWebApi.Service.Models
         static CustomerList()
         {
             Items = DataStorageHelper.Deserialize<List<Customer>>(FilePath);
-            GenerateTestList();
+            if (Items.Count == 0)
+            {
+                GenerateTestList();
+            }
         }
 
         private static void GenerateTestList()

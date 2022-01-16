@@ -39,7 +39,10 @@ namespace TestWebApi.Service.Controllers
         public IHttpActionResult GetGame(Guid id)
         {
             var game = _gameService.GetGame(id);
-            if (game == null) return NotFound();
+            if (game == null)
+            {
+                return NotFound();
+            }
             return Ok(game);
         }
 
@@ -77,7 +80,10 @@ namespace TestWebApi.Service.Controllers
         public IHttpActionResult GetCollection(Guid id)
         {
             var collection = _gameService.GetCollection(id);
-            if (collection == null) return NotFound();
+            if (collection == null)
+            {
+                return NotFound();
+            }
             return Ok(collection);
         }
 

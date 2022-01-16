@@ -72,9 +72,13 @@ namespace TestWebApi.Service.Models
             };
         }
 
-        public static GameSessionResponse GameSessionActiveAlready()
+        public static GameSessionResponse GameSessionActiveAlready(Guid sessionId)
         {
-            return new GameSessionResponse {Status = GameSessionStatus.IsActiveAlready};
+            return new GameSessionResponse
+            {
+                SessionId = sessionId,
+                Status = GameSessionStatus.IsActiveAlready
+            };
         }
 
         public static GameSessionResponse CustomerUnknown()

@@ -66,7 +66,10 @@ namespace TestWebApi.Service.Models
         static GameList()
         {
             Items = DataStorageHelper.Deserialize<List<Game>>(FilePath);
-            GenerateTestList();
+            if (Items.Count == 0)
+            {
+                GenerateTestList();
+            }
         }
 
         private static void GenerateTestList()

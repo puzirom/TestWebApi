@@ -1,12 +1,12 @@
 ﻿var tokenKey = "tokenKey";
 var userId = "userId";
 var sessionId = "sessionId";
+var serviceHost = "http://service.test.local";
 
-$(function () {
+$(function() {
     $("#loginBlock").show();
-    var serviceHost = "http://service.test.local";
 
-    $("#btnLogin").click(function (e) {
+    $("#btnLogin").click(function(e) {
         e.preventDefault();
         var loginData = {
             grant_type: "password",
@@ -30,15 +30,15 @@ $(function () {
         });
     });
 
-    $("#logOut").click(function (e) {
-        e.preventDefault();
+    $("#logOut").click(function(e) {
+        stopGameSession(e);
         sessionStorage.removeItem(tokenKey);
         sessionStorage.removeItem(userId);
         $("#userInfo").css("display", "none");
         $("#loginBlock").css("display", "block");
     });
-    
-    $("#btnCollections").click(function (e) {
+
+    $("#btnCollections").click(function(e) {
         e.preventDefault();
         var data = null;
         if ($("#txtPageNumberCol").val() !== "" && $("#txtPageSizeCol").val() !== "")
@@ -47,27 +47,27 @@ $(function () {
             type: "GET",
             data: data,
             url: serviceHost + "/api/game/getCollections"
-        }).success(function (data) {
+        }).success(function(data) {
             console.log(data);
-        }).fail(function (result) {
+        }).fail(function(result) {
             console.log(result);
         });
     });
 
-    $("#btnCollection").click(function (e) {
+    $("#btnCollection").click(function(e) {
         e.preventDefault();
         $.ajax({
             type: "GET",
             data: { id: $("#txtCollectionId").val() },
             url: serviceHost + "/api/game/getCollection"
-        }).success(function (data) {
+        }).success(function(data) {
             console.log(data);
-        }).fail(function (result) {
+        }).fail(function(result) {
             console.log(result);
         });
     });
 
-    $("#btnGames").click(function (e) {
+    $("#btnGames").click(function(e) {
         e.preventDefault();
         var data = null;
         if ($("#txtPageNumber").val() !== "" && $("#txtPageSize").val() !== "")
@@ -76,56 +76,63 @@ $(function () {
             type: "GET",
             data: data,
             url: serviceHost + "/api/game/getGames"
-        }).success(function (data) {
+        }).success(function(data) {
             console.log(data);
-        }).fail(function (result) {
+        }).fail(function(result) {
             console.log(result);
         });
     });
 
-    $("#btnGame").click(function (e) {
+    $("#btnGame").click(function(e) {
         e.preventDefault();
         $.ajax({
             type: "GET",
             data: { id: $("#txtGameId").val() },
             url: serviceHost + "/api/game/getGame"
-        }).success(function (data) {
+        }).success(function(data) {
             console.log(data);
-        }).fail(function (result) {
+        }).fail(function(result) {
             console.log(result);
         });
     });
 
-    $("#gameStart").click(function (e) {
+    $("#gameStart").click(function(e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
             url: serviceHost + "/api/game/StartGameSession",
             beforeSend: addTokenKey,
             data: { customerId: sessionStorage.getItem(userId), gameId: $("#txtGameId").val() }
-        }).success(function (data) {
+        }).success(function(data) {
             sessionStorage.setItem(sessionId, data.SessionId);
             console.log(data);
-        }).fail(function (result) {
+        }).fail(function(result) {
             console.log(result);
         });
     });
 
-    $("#gameStop").click(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            url: serviceHost + "/api/game/StopGameSession",
-            beforeSend: addTokenKey,
-            data: { sessionId: sessionStorage.getItem(sessionId) }
-        }).success(function (data) {
-            sessionStorage.removeItem(sessionId);
-            console.log(data);
-        }).fail(function (result) {
-            console.log(result);
-        });
-    });
+    $("#gameStop").click(stopGameSession);
 });
+
+function stopGameSession(e) {
+    e.preventDefault();
+    var gameSessionId = sessionStorage.getItem(sessionId);
+    if (gameSessionId == null) {
+        return;
+    }
+
+    $.ajax({
+        type: "GET",
+        url: serviceHost + "/api/game/StopGameSession",
+        beforeSend: addTokenKey,
+        data: { sessionId: sessionStorage.getItem(sessionId) }
+    }).success(function(data) {
+        sessionStorage.removeItem(sessionId);
+        console.log(data);
+    }).fail(function(result) {
+        console.log(result);
+    });
+}
 
 function addTokenKey(xhr) {
     var token = sessionStorage.getItem(tokenKey);

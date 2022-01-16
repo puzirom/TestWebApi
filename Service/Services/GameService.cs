@@ -57,14 +57,28 @@ namespace TestWebApi.Service.Services
         public GameSessionResponse StartGameSession(GameSessionRequest request)
         {
             var customer = CustomerList.Items.SingleOrDefault(item => item.Id == request.CustomerId);
-            if (customer == null) return GameSessionResponse.CustomerUnknown();
+            if (customer == null)
+            {
+                return GameSessionResponse.CustomerUnknown();
+            }
 
             var game = GameList.Items.SingleOrDefault(item => item.Id == request.GameId);
-            if (game == null) return GameSessionResponse.GameUnknown();
+            if (game == null)
+            {
+                return GameSessionResponse.GameUnknown();
+            }
+
+            var currentDateTime = DateTime.Now;
 
             var instance = GameSessionList.Items.SingleOrDefault(session =>
-                session.CustomerId == request.CustomerId && session.GameId == request.GameId);
-            if (instance != null) return GameSessionResponse.GameSessionActiveAlready();
+                session.CustomerId == request.CustomerId && 
+                session.GameId == request.GameId && 
+                session.Started <= currentDateTime && 
+                session.Stopped.GetValueOrDefault(currentDateTime) >= currentDateTime);
+            if (instance != null)
+            {
+                return GameSessionResponse.GameSessionActiveAlready(instance.Id);
+            }
 
             var url = GetGameUrl(request.CustomerId, request.GameId);
             instance = GameSession.StartGameSession(request.CustomerId, request.GameId);
@@ -82,8 +96,14 @@ namespace TestWebApi.Service.Services
             lock (Locker)
             {
                 var instance = GameSessionList.Items.SingleOrDefault(session => session.Id == sessionId);
-                if (instance == null) return GameSessionStatus.NotFound;
-                if (instance.Stopped != null) return GameSessionStatus.IsNotActiveAlready;
+                if (instance == null)
+                {
+                    return GameSessionStatus.NotFound;
+                }
+                if (instance.Stopped != null)
+                {
+                    return GameSessionStatus.IsNotActiveAlready;
+                }
 
                 instance.StopGameSession();
                 GameSessionList.Update();
